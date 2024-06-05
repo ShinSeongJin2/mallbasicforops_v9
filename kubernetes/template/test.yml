@@ -1,0 +1,329 @@
+    ---
+
+  apiVersion: &quot;apps/v1&quot;
+  kind: &quot;Deployment&quot;
+  metadata: 
+    name: &quot;order&quot;
+    labels: 
+      app: &quot;order&quot;
+    annotations: 
+      msaez.io/x: &quot;155&quot;
+      msaez.io/y: &quot;488&quot;
+  spec: 
+    selector: 
+      matchLabels: 
+        app: &quot;order&quot;
+    replicas: 1
+    template: 
+      metadata: 
+        labels: 
+          app: &quot;order&quot;
+      spec: 
+        containers: 
+          - 
+            name: &quot;order&quot;
+            image: &quot;ghcr.io/undefined&quot;
+            ports: 
+              - 
+                containerPort: 8080
+            readinessProbe: 
+              httpGet: 
+                path: &quot;/actuator/health&quot;
+                port: 8080
+              initialDelaySeconds: 10
+              timeoutSeconds: 2
+              periodSeconds: 5
+              failureThreshold: 10
+            livenessProbe: 
+              httpGet: 
+                path: &quot;/actuator/health&quot;
+                port: 8080
+              initialDelaySeconds: 120
+              timeoutSeconds: 2
+              periodSeconds: 5
+              failureThreshold: 5
+
+
+---
+
+    ---
+
+  apiVersion: &quot;v1&quot;
+  kind: &quot;Service&quot;
+  metadata: 
+    name: &quot;order&quot;
+    labels: 
+      app: &quot;order&quot;
+    annotations: 
+      msaez.io/x: &quot;155&quot;
+      msaez.io/y: &quot;288&quot;
+  spec: 
+    ports: 
+      - 
+        port: 8080
+        targetPort: 8080
+    selector: 
+      app: &quot;order&quot;
+
+
+---
+
+    ---
+
+  apiVersion: &quot;apps/v1&quot;
+  kind: &quot;Deployment&quot;
+  metadata: 
+    name: &quot;delivery&quot;
+    labels: 
+      app: &quot;delivery&quot;
+    annotations: 
+      msaez.io/x: &quot;355&quot;
+      msaez.io/y: &quot;488&quot;
+  spec: 
+    selector: 
+      matchLabels: 
+        app: &quot;delivery&quot;
+    replicas: 1
+    template: 
+      metadata: 
+        labels: 
+          app: &quot;delivery&quot;
+      spec: 
+        containers: 
+          - 
+            name: &quot;delivery&quot;
+            image: &quot;ghcr.io/undefined&quot;
+            ports: 
+              - 
+                containerPort: 8080
+            readinessProbe: 
+              httpGet: 
+                path: &quot;/actuator/health&quot;
+                port: 8080
+              initialDelaySeconds: 10
+              timeoutSeconds: 2
+              periodSeconds: 5
+              failureThreshold: 10
+            livenessProbe: 
+              httpGet: 
+                path: &quot;/actuator/health&quot;
+                port: 8080
+              initialDelaySeconds: 120
+              timeoutSeconds: 2
+              periodSeconds: 5
+              failureThreshold: 5
+
+
+---
+
+    ---
+
+  apiVersion: &quot;v1&quot;
+  kind: &quot;Service&quot;
+  metadata: 
+    name: &quot;delivery&quot;
+    labels: 
+      app: &quot;delivery&quot;
+    annotations: 
+      msaez.io/x: &quot;355&quot;
+      msaez.io/y: &quot;288&quot;
+  spec: 
+    ports: 
+      - 
+        port: 8080
+        targetPort: 8080
+    selector: 
+      app: &quot;delivery&quot;
+
+
+---
+
+    ---
+
+  apiVersion: &quot;apps/v1&quot;
+  kind: &quot;Deployment&quot;
+  metadata: 
+    name: &quot;product&quot;
+    labels: 
+      app: &quot;product&quot;
+    annotations: 
+      msaez.io/x: &quot;555&quot;
+      msaez.io/y: &quot;488&quot;
+  spec: 
+    selector: 
+      matchLabels: 
+        app: &quot;product&quot;
+    replicas: 1
+    template: 
+      metadata: 
+        labels: 
+          app: &quot;product&quot;
+      spec: 
+        containers: 
+          - 
+            name: &quot;product&quot;
+            image: &quot;ghcr.io/undefined&quot;
+            ports: 
+              - 
+                containerPort: 8080
+            readinessProbe: 
+              httpGet: 
+                path: &quot;/actuator/health&quot;
+                port: 8080
+              initialDelaySeconds: 10
+              timeoutSeconds: 2
+              periodSeconds: 5
+              failureThreshold: 10
+            livenessProbe: 
+              httpGet: 
+                path: &quot;/actuator/health&quot;
+                port: 8080
+              initialDelaySeconds: 120
+              timeoutSeconds: 2
+              periodSeconds: 5
+              failureThreshold: 5
+
+
+---
+
+    ---
+
+  apiVersion: &quot;v1&quot;
+  kind: &quot;Service&quot;
+  metadata: 
+    name: &quot;product&quot;
+    labels: 
+      app: &quot;product&quot;
+    annotations: 
+      msaez.io/x: &quot;555&quot;
+      msaez.io/y: &quot;288&quot;
+  spec: 
+    ports: 
+      - 
+        port: 8080
+        targetPort: 8080
+    selector: 
+      app: &quot;product&quot;
+
+
+---
+
+    ---
+
+  apiVersion: &quot;networking.k8s.io/v1&quot;
+  kind: &quot;Ingress&quot;
+  metadata: 
+    name: &quot;ingress&quot;
+    annotations: 
+      kubernetes.io/ingress.class: &quot;nginx&quot;
+      msaez.io/x: &quot;357&quot;
+      msaez.io/y: &quot;120&quot;
+      msaez.io/width: &quot;498&quot;
+      msaez.io/height: &quot;48&quot;
+  spec: 
+    rules: 
+      - 
+        host: &quot;&quot;
+        http: 
+          paths: 
+            - 
+              path: &quot;/orders&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;order&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/products&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;product&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/deliveries&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;delivery&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/orders&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;order&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/products&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;product&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/deliveries&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;delivery&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/orders&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;order&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/products&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;product&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/deliveries&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;delivery&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/orders&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;order&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/products&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;product&quot;
+                  port: 
+                    number: 8080
+            - 
+              path: &quot;/deliveries&quot;
+              pathType: &quot;Prefix&quot;
+              backend: 
+                service: 
+                  name: &quot;delivery&quot;
+                  port: 
+                    number: 8080
+
+
+---
+
+
