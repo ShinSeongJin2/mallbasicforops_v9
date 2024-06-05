@@ -24,7 +24,7 @@ spec:
       containers: 
         - 
           name: "order"
-          image: "ghcr.io/undefined"
+          image: "ghcr.io/shinseongjin2/mallbasicforops_v9/order:v1.0"
           ports: 
             - 
               containerPort: 8080
@@ -69,7 +69,7 @@ spec:
       containers: 
         - 
           name: "delivery"
-          image: "ghcr.io/undefined"
+          image: "ghcr.io/shinseongjin2/mallbasicforops_v9/delivery:v1.0"
           ports: 
             - 
               containerPort: 8080
@@ -114,7 +114,7 @@ spec:
       containers: 
         - 
           name: "product"
-          image: "ghcr.io/undefined"
+          image: "ghcr.io/shinseongjin2/mallbasicforops_v9/product:v1.0"
           ports: 
             - 
               containerPort: 8080
